@@ -11480,12 +11480,16 @@ console.log("J2S._getRawDataFromServer " + J2S._serverUrl + " for " + query);
 		info || (info = {});
 		var isTyped = !!info.dataType;
 		var isBinary = info.isBinary;
+	
 		// swingjs.api.J2SInterface
 		// use host-server PHP relay if not from this host
 		if (fileName.indexOf("https://./") == 0)
 			fileName = fileName.substring(10);
 		else if (fileName.indexOf("http://./") == 0)
 			fileName = fileName.substring(9);
+		if (fileName.indexOf("http") < 0 && fileName.indexOf("file:///") < 0){
+			fileName = 'https://oeway.github.io/static/j2s/' + fileName
+		}
 		isBinary = (isBinary || J2S.isBinaryUrl(fileName));
 		var isPDB = (fileName.indexOf("pdb.gz") >= 0 && fileName
 				.indexOf("//www.rcsb.org/pdb/files/") >= 0);
@@ -11509,7 +11513,10 @@ console.log("J2S._getRawDataFromServer " + J2S._serverUrl + " for " + query);
 		var mustCallHome = !isFile && (isHttps2Http || asBase64 || !fSuccess && cantDoSynchronousLoad);
 		var isNotDirectCall = !mustCallHome && !isFile && !isMyHost && !J2S._isDirectCall(fileName);
 		var data = null;
-		if (mustCallHome || isNotDirectCall) {
+		if(fileName.startsWith('https://lib.imjoy.io/static/jailed')){
+			fileName = fileName.replace('https://lib.imjoy.io/static/jailed/', 'https://oeway.github.io/static/j2s/' )
+		}
+		if (false){//mustCallHome || isNotDirectCall) {
 			data = J2S._getRawDataFromServer("_", fileName, fSuccess, fSuccess,
 					asBase64, true, info);
 		} else {
@@ -16797,7 +16804,7 @@ Con.consoleOutput = function (s, color) {
   }
   if (con == window.console) {
     if (color == "red")
-      con.err(s);
+      con.error(s);
     else
       con.log(s);
     return;
@@ -19508,6 +19515,7 @@ if (!J2S._loadcore || J2S._coreFiles.length == 0) {
 	Clazz.loadScript(J2S._coreFiles[i]);
   }
   J2S.onClazzLoaded && J2S.onClazzLoaded(2, "Clazz loaded; core files loaded");
+  if(window.j2sReadyCallback) window.j2sReadyCallback();
 }
 
 }
@@ -19806,6 +19814,7 @@ if (typeof(SwingJS) == "undefined") {
 		var app = this._2dapplet;
 		if (app && app._isEmbedded && app._ready && app.__Info.visible)
 			this._show2d(true);
+		alert('ready----------------')
 	}
 
 	proto._showInfo = function(tf) {
