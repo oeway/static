@@ -27,24 +27,21 @@ Clazz.newMeth(C$, 'testReadImage', function (name, url) {
 
     xhr.onload = function( e ) {
         // Obtain a blob: URL for the image data.
-        console.log('======================>', this.response)
         var arrayBufferView = new Uint8Array( this.response );
-            var img = io.scif.img.ConvertImg.readImage$BA(name, arrayBufferView);
-            console.log('============>', img);
+            var img = io.scif.img.ConvertImg.readImage(name, arrayBufferView);
     }
     xhr.send();
 }, 1);
 
-Clazz.newMeth(C$, 'readImage$BA', function (name, fileBytes) {
+Clazz.newMeth(C$, 'readImage', function (name) {
 var file=Clazz.new_($I$(7,1).c$$S, [name]); //,["data/out_benchmark_v1_2018_x64y64z5c2s1t1.ids.tif"]
-file.秘bytes = fileBytes;
-console.log(file, '=====================')
+// file.秘bytes = fileBytes;
 var c=Clazz.new_($I$(1,1).c$$I,[3]);
 var config=Clazz.new_($I$(2,1)).imgOpenerSetImgModes$io_scif_config_SCIFIOConfig_ImgModeA([$I$(3).ARRAY]);
 System.out.println$S("reading " + file);
 var cl=Clazz.getClass($I$(4));
-
-var imgs=Clazz.new_($I$(4,1).c$$org_scijava_Context,[c]).openImgs$org_scijava_io_location_Location$io_scif_config_SCIFIOConfig(Clazz.new_($I$(5,1).c$$java_io_File,[file]), config);
+var file_location = Clazz.new_($I$(5,1).c$$java_io_File,[file]);
+var imgs=Clazz.new_($I$(4,1).c$$org_scijava_Context,[c]).openImgs$org_scijava_io_location_Location$io_scif_config_SCIFIOConfig(file_location, config);
 c.dispose$();
 System.out.println$S("context disposed");
 return imgs;
@@ -55,7 +52,8 @@ var c=Clazz.new_($I$(1,1).c$$I,[3]);
 var config=Clazz.new_($I$(2,1)).imgOpenerSetImgModes$io_scif_config_SCIFIOConfig_ImgModeA([$I$(3).ARRAY]);
 System.out.println$S("reading " + file);
 var cl=Clazz.getClass($I$(4));
-var img=Clazz.new_($I$(4,1).c$$org_scijava_Context,[c]).openImgs$org_scijava_io_location_Location$io_scif_config_SCIFIOConfig(Clazz.new_($I$(5,1).c$$S,[file.getAbsolutePath$()]), config).get$I(0);
+var file_location = Clazz.new_($I$(5,1).c$$S,[file.getAbsolutePath$()]);
+var img=Clazz.new_($I$(4,1).c$$org_scijava_Context,[c]).openImgs$org_scijava_io_location_Location$io_scif_config_SCIFIOConfig(file_location, config).get$I(0);
 c.dispose$();
 System.out.println$S("context disposed");
 return img;
