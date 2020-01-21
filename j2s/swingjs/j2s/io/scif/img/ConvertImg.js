@@ -33,15 +33,14 @@ Clazz.newMeth(C$, 'testReadImage', function (name, url) {
     xhr.send();
 }, 1);
 
-Clazz.newMeth(C$, 'readImage', function (name) {
-var file=Clazz.new_($I$(7,1).c$$S, [name]); //,["data/out_benchmark_v1_2018_x64y64z5c2s1t1.ids.tif"]
-// file.秘bytes = fileBytes;
+Clazz.newMeth(C$, 'readImage', function (fileBytes) {
+var byte_loation = Clazz.new_("org.scijava.io.location.BytesLocation");
+byte_loation.bytes = fileBytes;
 var c=Clazz.new_($I$(1,1).c$$I,[3]);
 var config=Clazz.new_($I$(2,1)).imgOpenerSetImgModes$io_scif_config_SCIFIOConfig_ImgModeA([$I$(3).ARRAY]);
 System.out.println$S("reading " + file);
 var cl=Clazz.getClass($I$(4));
-var file_location = Clazz.new_($I$(5,1).c$$java_io_File,[file]);
-var imgs=Clazz.new_($I$(4,1).c$$org_scijava_Context,[c]).openImgs$org_scijava_io_location_Location$io_scif_config_SCIFIOConfig(file_location, config);
+var imgs=Clazz.new_($I$(4,1).c$$org_scijava_Context,[c]).openImgs$org_scijava_io_location_Location$io_scif_config_SCIFIOConfig(byte_loation, config);
 c.dispose$();
 System.out.println$S("context disposed");
 return imgs;
