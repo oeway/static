@@ -23,8 +23,18 @@ Clazz.super_(C$, this);
 this.bytes=Clazz.new_($I$(1,1).c$$org_scijava_util_ByteArray,[bytes]);
 }, 1);
 
+Clazz.newMeth(C$, 'getName$', function () {
+return this.name || 'Location.defaultName';
+});
+
 Clazz.newMeth(C$, 'c$$BA', function (bytes) {
 Clazz.super_(C$, this);
+this.bytes=Clazz.new_($I$(1,1).c$$BA,[bytes]);
+}, 1);
+
+Clazz.newMeth(C$, 'c$$S$BA', function (name, bytes) {
+Clazz.super_(C$, this);
+this.name = name;
 this.bytes=Clazz.new_($I$(1,1).c$$BA,[bytes]);
 }, 1);
 
