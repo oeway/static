@@ -13,11 +13,11 @@ Clazz.newMeth(C$, '$init$', function () {
 C$.$fields$=[[]
 ,['Z',['j2sHeadless']]]
 
-Clazz.newMeth(C$, 'testReadImage', function (name, url) {
+Clazz.newMeth(C$, 'readImageFromUrl', function (url) {
+return new Promise(function (resolve, reject) {
     // Simulate a call to Dropbox or other service that can
     // return an image as an ArrayBuffer.
     var xhr = new XMLHttpRequest();
-
     // Use JSFiddle logo as a sample image to avoid complicating
     // this example with cross-domain issues.
     xhr.open( "GET", url, true );
@@ -26,23 +26,29 @@ Clazz.newMeth(C$, 'testReadImage', function (name, url) {
     xhr.responseType = "arraybuffer";
 
     xhr.onload = function( e ) {
+    try{
         // Obtain a blob: URL for the image data.
-        var arrayBufferView = new Uint8Array( this.response );
-            var img = io.scif.img.ConvertImg.readImage(name, arrayBufferView);
+        var arrayBufferView = new Int8Array( this.response );
+        var img = io.scif.img.ConvertImg.readImage(arrayBufferView);
+        resolve(img)
     }
+    catch(e){
+        reject(e)
+    }
+    }
+    xhr.onerror = reject;
     xhr.send();
+})
+
 }, 1);
 
 Clazz.newMeth(C$, 'readImage', function (fileBytes) {
-var byte_loation = Clazz.new_("org.scijava.io.location.BytesLocation");
-byte_loation.bytes = fileBytes;
+// var buf= fileBytes || Clazz.array(Byte.TYPE, [1024]);
+var byte_loation = Clazz.new_(Clazz.load("org.scijava.io.location.BytesLocation").c$$BA, [fileBytes]);
 var c=Clazz.new_($I$(1,1).c$$I,[3]);
 var config=Clazz.new_($I$(2,1)).imgOpenerSetImgModes$io_scif_config_SCIFIOConfig_ImgModeA([$I$(3).ARRAY]);
-System.out.println$S("reading " + file);
-var cl=Clazz.getClass($I$(4));
 var imgs=Clazz.new_($I$(4,1).c$$org_scijava_Context,[c]).openImgs$org_scijava_io_location_Location$io_scif_config_SCIFIOConfig(byte_loation, config);
 c.dispose$();
-System.out.println$S("context disposed");
 return imgs;
 }, 1);
 
