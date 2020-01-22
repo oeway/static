@@ -13063,12 +13063,12 @@ if (ev.keyCode == 9 && ev.target["data-focuscomponent"]) {
 			__coreSet.push(type);
 			__coreSet.sort();
 			J2S._coreFiles = [ path + "/core/core" + __coreSet.join("")
-					+ ".z.js" ];
+					+ ".js" ];
 		}
 		if (more && (more = more.split(" ")))
 			for (var i = 0; i < more.length; i++)
 				if (__coreMore.join("").indexOf(more[i]) < 0)
-					__coreMore.push(path + "/core/core" + more[i] + ".z.js")
+					__coreMore.push(path + "/core/core" + more[i] + ".js")
 		for (var i = 0; i < __coreMore.length; i++)
 			J2S._coreFiles.push(__coreMore[i]);
 	}
